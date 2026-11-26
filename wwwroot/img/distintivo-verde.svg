@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="252" height="32" viewBox="0 0 252 32" role="img" aria-labelledby="t">
+  <title id="t">Software verde: 0.16 gramos de CO2e por visita (revisión verde, modelo Sustainable Web Design)</title>
+  <defs>
+    <clipPath id="r"><rect width="252" height="32" rx="16"/></clipPath>
+  </defs>
+  <g clip-path="url(#r)">
+    <rect width="132" height="32" fill="#065f46"/>
+    <rect x="132" width="120" height="32" fill="#d1fae5"/>
+  </g>
+  <!-- hoja (estilo Lucide "leaf") -->
+  <g transform="translate(12 7) scale(.75)" fill="none" stroke="#a7f3d0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+  </g>
+  <g font-family="Inter, Segoe UI, system-ui, sans-serif" font-size="12.5" font-weight="600">
+    <text x="36" y="20.5" fill="#ffffff">Software verde</text>
+    <text x="142" y="20.5" fill="#065f46">0.16 g CO₂e/visita</text>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+# Compilados de .NET
+bin/
+obj/
+
+# Configuracion local
+.vs/
+.vscode/
+.claude/
+*.user

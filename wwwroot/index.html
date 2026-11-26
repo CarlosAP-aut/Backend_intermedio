@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script src="js/tema.js?v=2"></script>
+  <title>Rosa Lumina · Tienda de belleza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=2">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <!-- ============ ENCABEZADO ============ -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="#tienda" class="logo" aria-label="Rosa Lumina, inicio">
+        <svg class="icon" aria-hidden="true"><use href="#i-sparkles"/></svg>
+        <span>Rosa <em>Lumina</em></span>
+      </a>
+
+      <nav class="tabs" aria-label="Secciones">
+        <a href="#tienda" class="tab" data-vista="tienda">
+          <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>Tienda
+        </a>
+        <a href="#inventario" class="tab" data-vista="inventario">
+          <svg class="icon" aria-hidden="true"><use href="#i-boxes"/></svg>Inventario
+        </a>
+      </nav>
+
+      <button class="btn btn-ghost theme-btn" id="btnTema" aria-pressed="false" aria-label="Cambiar a modo oscuro">
+        <svg class="icon i-sol" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon i-luna" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+
+      <button class="btn btn-ghost cart-btn" id="btnCarrito" aria-label="Abrir carrito, 0 productos">
+        <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>
+        <span class="badge" id="carritoCuenta" hidden>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="container" tabindex="-1">
+
+    <!-- ============ VISTA: TIENDA ============ -->
+    <section id="vista-tienda" class="vista" aria-labelledby="titulo-tienda">
+
+      <div class="hero">
+        <div class="hero-text">
+          <p class="eyebrow">Cosmética consciente</p>
+          <h1 id="titulo-tienda">Tu rutina de belleza, <em>a la medida del clima</em></h1>
+          <p class="lead">Maquillaje, cuidado de la piel, cabello y fragancias. Revisa el clima de hoy y te sugerimos qué necesita tu piel.</p>
+        </div>
+
+        <!-- ===== SECCION DE CLIMA (API Open-Meteo) ===== -->
+        <article class="card weather" aria-labelledby="titulo-clima" aria-busy="true" id="clima">
+          <header class="weather-head">
+            <h2 id="titulo-clima">
+              <svg class="icon" aria-hidden="true"><use href="#i-cloud-sun"/></svg>
+              Clima y tu piel
+            </h2>
+            <label class="sr-only" for="ciudad">Ciudad</label>
+            <select id="ciudad" class="select-sm">
+              <option value="25.6866,-100.3161">Monterrey</option>
+              <option value="19.4326,-99.1332">Ciudad de México</option>
+              <option value="20.6597,-103.3496">Guadalajara</option>
+              <option value="21.1619,-86.8515">Cancún</option>
+              <option value="32.5149,-117.0382">Tijuana</option>
+            </select>
+          </header>
+          <div id="climaContenido">
+            <div class="skeleton" style="height:64px"></div>
+            <div class="skeleton" style="height:18px;margin-top:12px"></div>
+            <div class="skeleton" style="height:56px;margin-top:12px"></div>
+          </div>
+          <p class="weather-source">Datos: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></p>
+        </article>
+      </div>
+
+      <div class="toolbar">
+        <div class="chips" id="filtros" role="group" aria-label="Filtrar por categoría"></div>
+        <div class="search">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+          <label for="buscar" class="sr-only">Buscar productos</label>
+          <input id="buscar" type="search" placeholder="Buscar producto o marca" autocomplete="off">
+        </div>
+      </div>
+
+      <p class="result-count" id="conteoTienda" aria-live="polite"></p>
+      <div class="grid" id="catalogo"></div>
+    </section>
+
+    <!-- ============ VISTA: INVENTARIO ============ -->
+    <section id="vista-inventario" class="vista" aria-labelledby="titulo-inv" hidden>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Panel interno</p>
+          <h1 id="titulo-inv">Inventario</h1>
+        </div>
+        <button class="btn btn-primary" id="btnNuevo">
+          <svg class="icon" aria-hidden="true"><use href="#i-plus"/></svg>Nuevo producto
+        </button>
+      </div>
+
+      <div class="stats" id="resumen"></div>
+
+      <div class="card table-card">
+        <div class="table-tools">
+          <label for="buscarInv" class="sr-only">Buscar en inventario</label>
+          <div class="search">
+            <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+            <input id="buscarInv" type="search" placeholder="Buscar por nombre, marca o SKU" autocomplete="off">
+          </div>
+          <label class="check">
+            <input type="checkbox" id="soloBajo"> Solo stock bajo o agotado
+          </label>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">SKU</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Categoría</th>
+                <th scope="col" class="num">Precio</th>
+                <th scope="col" class="num">Stock</th>
+                <th scope="col">Estado</th>
+                <th scope="col"><span class="sr-only">Acciones</span></th>
+              </tr>
+            </thead>
+            <tbody id="tablaInv"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <a href="sostenibilidad.html" class="distintivo" title="Ver la prueba de huella de carbono">
+      <img src="img/distintivo-verde.svg" width="252" height="32" alt="Distintivo Software verde: 0.16 g de CO2e por visita. Ver la prueba de huella de carbono">
+    </a>
+    <p>Rosa Lumina · Proyecto final Backend Intermedio · ASP.NET Core + MySQL + Open-Meteo<br>
+      Fotos: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> (licencia gratuita) · Marcas y productos inventados</p>
+  </footer>
+
+  <!-- ============ CARRITO (panel lateral) ============ -->
+  <dialog id="carrito" class="drawer" aria-labelledby="titulo-carrito">
+    <div class="drawer-head">
+      <h2 id="titulo-carrito">Tu carrito</h2>
+      <button class="btn btn-icon" data-cerrar aria-label="Cerrar carrito">
+        <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="carritoItems"></div>
+    <div class="drawer-foot">
+      <div class="total-row"><span>Total</span><strong id="carritoTotal">$0.00</strong></div>
+      <button class="btn btn-primary btn-block" id="btnComprar">Finalizar compra</button>
+    </div>
+  </dialog>
+
+  <!-- ============ FORMULARIO DE PRODUCTO ============ -->
+  <dialog id="dlgProducto" class="modal" aria-labelledby="tituloForm">
+    <form id="formProducto" method="dialog" novalidate>
+      <div class="modal-head">
+        <h2 id="tituloForm">Nuevo producto</h2>
+        <button type="button" class="btn btn-icon" data-cerrar aria-label="Cerrar">
+          <svg class="icon" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+
+      <div class="form-error" id="formError" role="alert" hidden></div>
+      <input type="hidden" id="fId">
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="fSku">SKU <span aria-hidden="true">*</span></label>
+          <input id="fSku" required maxlength="20" placeholder="MAQ-010">
+        </div>
+        <div class="field">
+          <label for="fCategoria">Categoría <span aria-hidden="true">*</span></label>
+          <select id="fCategoria" required></select>
+        </div>
+        <div class="field span-2">
+          <label for="fNombre">Nombre <span aria-hidden="true">*</span></label>
+          <input id="fNombre" required maxlength="120">
+        </div>
+        <div class="field span-2">
+          <label for="fMarca">Marca <span aria-hidden="true">*</span></label>
+          <input id="fMarca" required maxlength="80">
+        </div>
+        <div class="field span-2">
+          <label for="fDescripcion">Descripción</label>
+          <textarea id="fDescripcion" rows="2" maxlength="300"></textarea>
+        </div>
+        <div class="field">
+          <label for="fPrecio">Precio (MXN) <span aria-hidden="true">*</span></label>
+          <input id="fPrecio" type="number" inputmode="decimal" step="0.01" min="0.01" required>
+        </div>
+        <div class="field">
+          <label for="fStock">Stock <span aria-hidden="true">*</span></label>
+          <input id="fStock" type="number" inputmode="numeric" step="1" min="0" required>
+        </div>
+        <div class="field">
+          <label for="fMinimo">Stock mínimo</label>
+          <input id="fMinimo" type="number" inputmode="numeric" step="1" min="0" value="5" aria-describedby="fMinimoAyuda">
+          <small id="fMinimoAyuda">Debajo de este número se marca “stock bajo”.</small>
+        </div>
+        <div class="field span-2">
+          <label for="fImagen">Imagen</label>
+          <input id="fImagen" maxlength="300" placeholder="img/productos/MAQ-010.webp" aria-describedby="fImagenAyuda">
+          <small id="fImagenAyuda">Ruta dentro de wwwroot o URL de una foto. Si se deja vacío se muestra un ícono.</small>
+        </div>
+      </div>
+
+      <div class="modal-foot">
+        <button type="button" class="btn btn-ghost" data-cerrar>Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- ============ CONFIRMAR ELIMINACION ============ -->
+  <dialog id="dlgConfirmar" class="modal modal-sm" aria-labelledby="confTitulo">
+    <h2 id="confTitulo">¿Eliminar producto?</h2>
+    <p id="confTexto"></p>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-ghost" data-cerrar>Cancelar</button>
+      <button type="button" class="btn btn-danger" id="btnConfirmarBorrar">Eliminar</button>
+    </div>
+  </dialog>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- ============ ICONOS SVG (estilo Lucide) ============ -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.14-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.14a.5.5 0 0 1 .96 0l1.58 6.14a2 2 0 0 0 1.44 1.44l6.14 1.58a.5.5 0 0 1 0 .96l-6.14 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.14a.5.5 0 0 1-.96 0z"/></symbol>
+      <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+      <symbol id="i-boxes" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+      <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+      <symbol id="i-cloud-sun" viewBox="0 0 24 24"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.95 12.65a4 4 0 0 0-5.93-4.88"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+      <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></symbol>
+      <symbol id="i-rain" viewBox="0 0 24 24"><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></symbol>
+      <symbol id="i-storm" viewBox="0 0 24 24"><path d="M6 16.33A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.97"/><path d="m13 12-3 5h4l-3 5"/></symbol>
+      <symbol id="i-snow" viewBox="0 0 24 24"><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="M8 15h.01"/><path d="M8 19h.01"/><path d="M12 17h.01"/><path d="M12 21h.01"/><path d="M16 15h.01"/><path d="M16 19h.01"/></symbol>
+      <symbol id="i-fog" viewBox="0 0 24 24"><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="M16 17H7"/><path d="M17 21H9"/></symbol>
+      <symbol id="i-droplet" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+      <symbol id="i-wind" viewBox="0 0 24 24"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></symbol>
+      <symbol id="i-flower" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 16.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 1 1 12 7.5a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 1 1-4.5 4.5"/><path d="M12 7.5V9"/><path d="M7.5 12H9"/><path d="M16.5 12H15"/><path d="M12 16.5V15"/></symbol>
+      <symbol id="i-brush" viewBox="0 0 24 24"><path d="m9.06 11.9 8.07-8.06a2.85 2.85 0 1 1 4.03 4.03l-8.06 8.08"/><path d="M7.07 14.94c-1.66 0-3 1.35-3 3.02 0 1.33-2.5 1.52-2 2.02 1.08 1.1 2.49 2.02 4 2.02 2.2 0 4-1.8 4-4.04a3.01 3.01 0 0 0-3-3.02z"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    </defs>
+  </svg>
+
+  <script src="js/app.js?v=2"></script>
+</body>
+</html>

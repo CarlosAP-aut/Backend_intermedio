@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script src="js/tema.js?v=2"></script>
+  <title>Huella de carbono · Rosa Lumina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=2">
+  <style>
+    .verde { --color-primary: #047857; --color-ring: #047857; }
+    .tabs + .theme-btn { margin-left: var(--s-2); }
+    .verde .eyebrow { color: var(--color-primary); }
+    :root[data-theme="dark"] .verde { --color-primary: #34d399; --color-ring: #34d399; --color-on-primary: #04281c; }
+    :root[data-theme="dark"] .grande { color: #6ee7b7 !important; }
+    :root[data-theme="dark"] .formula { background: #0f2e25 !important; border-color: #1f5141 !important; color: var(--color-fg); }
+    .intro { display: grid; gap: var(--s-5); align-items: center; margin-bottom: var(--s-6); }
+    @media (min-width: 860px) { .intro { grid-template-columns: 1.3fr 1fr; } }
+    .sello { padding: var(--s-5); text-align: center; }
+    .sello img { width: 100%; max-width: 320px; height: auto; }
+    .sello p { color: var(--color-muted-fg); font-size: .875rem; margin: var(--s-3) 0 0; }
+    .grande { font: 600 3rem/1 var(--font-display); color: #065f46; font-variant-numeric: tabular-nums; }
+    .compara { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: var(--s-6); }
+    h2.sec { font-size: 1.4rem; margin: var(--s-6) 0 var(--s-3); }
+    .card.pad { padding: var(--s-4) var(--s-5); }
+    .formula { font-family: ui-monospace, "Cascadia Code", monospace; font-size: .875rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); padding: var(--s-3) var(--s-4); overflow-x: auto; white-space: pre; }
+    .sev { font-weight: 600; white-space: nowrap; }
+    .estado-ok { color: var(--color-success); font-weight: 600; }
+    .estado-pend { color: var(--color-warning); font-weight: 600; }
+    .prose { max-width: 70ch; color: var(--color-muted-fg); }
+  </style>
+</head>
+<body class="verde">
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a href="./" class="logo"><span>Rosa <em>Lumina</em></span></a>
+      <nav class="tabs" aria-label="Secciones">
+        <a href="./#tienda" class="tab">Tienda</a>
+        <a href="./#inventario" class="tab">Inventario</a>
+        <a href="sostenibilidad.html" class="tab" aria-current="page">Huella de carbono</a>
+      </nav>
+      <button class="btn btn-ghost theme-btn" id="btnTema" aria-pressed="false" aria-label="Cambiar a modo oscuro">
+        <svg class="icon i-sol" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="icon i-luna" aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">Prueba de huella de carbono</p>
+        <h1>Cada visita a la tienda emite <em>≈ 0.16 g de CO₂e</em></h1>
+        <p class="lead">Revisamos el proyecto con la metodología de software verde y redujimos el peso de la primera visita
+          de 1,086 KB a 601 KB (−45%). Esta página resume la medición y los cambios.</p>
+      </div>
+      <div class="card sello">
+        <img src="img/distintivo-verde.svg" width="252" height="32" alt="Distintivo Software verde: 0.16 g de CO2e por visita">
+        <p>Distintivo interno del proyecto, basado en la revisión de abajo. No es una certificación de un tercero.</p>
+      </div>
+    </section>
+
+    <div class="compara">
+      <div class="card stat"><div class="stat-label">Antes · por visita</div><div class="stat-value">0.28 g</div></div>
+      <div class="card stat"><div class="stat-label">Después · por visita</div><div class="stat-value grande">0.155 g</div></div>
+      <div class="card stat"><div class="stat-label">Peso de la página</div><div class="stat-value">601 KB</div></div>
+      <div class="card stat"><div class="stat-label">Por 10,000 visitas</div><div class="stat-value">1.55 kg</div></div>
+    </div>
+
+    <h2 class="sec">Cómo se calculó</h2>
+    <p class="prose">Unidad funcional: una visita (primera carga de la página completa). Se midieron los bytes transferidos
+      y se aplicó el modelo <strong>Sustainable Web Design v3</strong>, que estima la parte E × I de la fórmula SCI.</p>
+    <div class="formula">SCI = ((E × I) + M) / R
+energía (kWh) = GB × 0.81 × (0.75 + 0.25 × 0.02)
+CO₂e (g)      = energía × 442 g/kWh</div>
+
+    <h2 class="sec">Medición antes y después</h2>
+    <div class="card table-card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Recurso</th><th scope="col" class="num">Antes</th><th scope="col" class="num">Después</th></tr></thead>
+          <tbody>
+            <tr><td>HTML + CSS + JS</td><td class="num">54.1 KB</td><td class="num">17.6 KB</td></tr>
+            <tr><td>API (categorías, productos, clima)</td><td class="num">8.2 KB</td><td class="num">2.5 KB</td></tr>
+            <tr><td>Fuentes</td><td class="num">101.5 KB</td><td class="num">80.6 KB</td></tr>
+            <tr><td>Imágenes (26 fotos)</td><td class="num">922.2 KB</td><td class="num">500.7 KB</td></tr>
+            <tr><td><strong>Total</strong></td><td class="num"><strong>1,086 KB</strong></td><td class="num"><strong>601 KB</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h2 class="sec">Hallazgos de la revisión</h2>
+    <div class="card table-card">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Severidad</th><th scope="col">Hallazgo</th><th scope="col">Acción</th><th scope="col">Estado</th></tr></thead>
+          <tbody>
+            <tr><td class="sev">🔴 Alta</td><td>Imágenes = 85% del peso</td><td>WebP 480×360 + carga diferida (−46%)</td><td class="estado-ok">Corregido</td></tr>
+            <tr><td class="sev">🟡 Media</td><td>Respuestas sin comprimir</td><td>Brotli / Gzip (JS 20.5 → 6.5 KB)</td><td class="estado-ok">Corregido</td></tr>
+            <tr><td class="sev">🟡 Media</td><td>Sin caché del navegador</td><td>Cache-Control: imágenes 7 días</td><td class="estado-ok">Corregido</td></tr>
+            <tr><td class="sev">🟡 Media</td><td>Clima pedido en cada visita</td><td>Caché de 15 min (253 → 3 ms)</td><td class="estado-ok">Corregido</td></tr>
+            <tr><td class="sev">🟢 Baja</td><td>Resumen traía todas las filas</td><td>COUNT/SUM en MySQL</td><td class="estado-ok">Corregido</td></tr>
+            <tr><td class="sev">🟢 Baja</td><td>Fuentes externas (81 KB)</td><td>Menos pesos; falta alojarlas localmente</td><td class="estado-pend">Parcial</td></tr>
+            <tr><td class="sev">🟢 Baja</td><td>Sin modo oscuro</td><td>Modo oscuro (ahorra energía en OLED)</td><td class="estado-ok">Corregido</td></tr>
+            <tr><td class="sev">🟢 Baja</td><td>Región de despliegue</td><td>Elegir una red baja en carbono al publicar</td><td class="estado-pend">Pendiente</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h2 class="sec">Ya era sostenible</h2>
+    <ul class="prose">
+      <li>Una sola petición de productos; filtros y búsqueda en el navegador.</li>
+      <li>Sin consultas automáticas repetidas (polling).</li>
+      <li>JavaScript sin frameworks: 6.5 KB comprimido.</li>
+      <li>Imágenes con dimensiones fijas (la página no se reacomoda) e íconos SVG en línea.</li>
+      <li>Respeta la preferencia de movimiento reducido.</li>
+    </ul>
+
+    <p class="prose" style="margin-top:var(--s-6)">Metodología: skill <code>revision-verde</code> de
+      <a href="https://github.com/Interdato-SostenibilidadDigital/Ingeniero-Software-Verde-CLAUDE" target="_blank" rel="noopener">Ingeniero-Software-Verde-CLAUDE</a>.
+      Estimación con promedios mundiales; no incluye el consumo medido del servidor ni el carbono incorporado del hardware (M).</p>
+  </main>
+
+  <footer class="footer container">
+    <p>Rosa Lumina · Fotos: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a> (licencia gratuita)</p>
+  </footer>
+</body>
+</html>
